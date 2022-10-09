@@ -1,16 +1,16 @@
-# Three.js Journey
+# Appicua - maqueta virtual
 
-## Setup
-Download [Node.js](https://nodejs.org/en/download/).
-Run this followed commands:
+## Configuración
+Descargar [Node.js](https://nodejs.org/en/download/).
+Ejecutar los siguientes comandos:
 
 ``` bash
-# Install dependencies (only the first time)
+# Instalar dependencias (solo la primera vez)
 npm install
 
-# Run the local server at localhost:8080
+# Correr localmente en localhost:8080
 npm run dev
 
-# Build for production in the dist/ directory
+# Crear directorio para producción dist/
 npm run build
 ```
