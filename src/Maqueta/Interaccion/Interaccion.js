@@ -191,7 +191,7 @@ export default class Interaccion {
 
     interaccion.modalUnidades.classList.remove("mostrando-resultados");
   }
-  // Depende de inventario
+  // COGNIS
   filtrar(interaccion) {
     event.preventDefault();
     interaccion.quitarAislamiento();
@@ -204,8 +204,11 @@ export default class Interaccion {
     interaccion.tablaResultados.innerHTML = "";
     //Consultar json
     for (let i = 0; i < interaccion.inventario.length; i++) {
-      const infoID = interaccion.inventario[i].id;
+      //Usando id
+      //const infoID = interaccion.inventario[i].id;
 
+      //Usando nombre
+      const infoID = interaccion.inventario[i].nombre;
       //Prender los aptos del JSON
       interaccion.maqueta.mundo.mascarasProyecto.traverse((child) => {
         if (child.type === "Mesh") {
@@ -216,22 +219,39 @@ export default class Interaccion {
         }
       });
       //Pintar tabla
-      const resultado = `<tr data-apto="${interaccion.inventario[i].id}">
-                <td>${interaccion.inventario[i].torre}</td>
-                <td>${interaccion.inventario[i].apto_tit}</td>
-                <td>${interaccion.inventario[i].tipo_tit}</td>
-                <td>${interaccion.inventario[i].habitaciones}</td>
-                <td>${interaccion.inventario[i].piso}</td>
-                <td>${interaccion.inventario[i].area_ac}</td>
-                <td>$${Intl.NumberFormat("de-DE").format(
-                  interaccion.inventario[i].valor
-                )}</td>
-                <td>
-                    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.625 1.18751C11.2782 1.17842 12.6875 2.00754 12.6875 4.68751C12.6875 7.36748 6.99995 11.25 6.99995 11.25C6.99995 11.25 1.3125 7.36748 1.3125 4.68751C1.3125 2.00754 2.72178 1.1892 4.375 1.18751C5.25 1.18662 6.45391 1.7364 7.00005 2.50001C7.54609 1.7364 8.74018 1.19238 9.625 1.18751Z" stroke="#70676F" stroke-linejoin="round" />
-                    </svg>
-                </td>
-            </tr>`;
+      // const resultado = `<tr data-apto="${interaccion.inventario[i].id}">
+      //           <td>${interaccion.inventario[i].torre}</td>
+      //           <td>${interaccion.inventario[i].apto_tit}</td>
+      //           <td>${interaccion.inventario[i].tipo_tit}</td>
+      //           <td>${interaccion.inventario[i].habitaciones}</td>
+      //           <td>${interaccion.inventario[i].piso}</td>
+      //           <td>${interaccion.inventario[i].area_ac}</td>
+      //           <td>$${Intl.NumberFormat("de-DE").format(
+      //             interaccion.inventario[i].valor
+      //           )}</td>
+      //           <td>
+      //               <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      //                   <path fill-rule="evenodd" clip-rule="evenodd" d="M9.625 1.18751C11.2782 1.17842 12.6875 2.00754 12.6875 4.68751C12.6875 7.36748 6.99995 11.25 6.99995 11.25C6.99995 11.25 1.3125 7.36748 1.3125 4.68751C1.3125 2.00754 2.72178 1.1892 4.375 1.18751C5.25 1.18662 6.45391 1.7364 7.00005 2.50001C7.54609 1.7364 8.74018 1.19238 9.625 1.18751Z" stroke="#70676F" stroke-linejoin="round" />
+      //               </svg>
+      //           </td>
+      //       </tr>`;
+
+      const resultado = `<tr data-apto="${interaccion.inventario[i].nombre}">
+            <td>${interaccion.inventario[i].nombre.substring(4, interaccion.inventario[i].nombre.length)}</td>
+            <td>${interaccion.inventario[i].cantidadAlcobas}</td>
+            <td>${interaccion.inventario[i].numeroPiso}</td>
+            <td>${interaccion.inventario[i].areaPrivada}</td>
+            <td>${interaccion.inventario[i].areaConstruida}</td>
+            <td>${interaccion.inventario[i].areaBalcon}</td>
+            <td>$${Intl.NumberFormat("de-DE").format(
+              interaccion.inventario[i].valor
+            )}</td>
+            <td>
+                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.625 1.18751C11.2782 1.17842 12.6875 2.00754 12.6875 4.68751C12.6875 7.36748 6.99995 11.25 6.99995 11.25C6.99995 11.25 1.3125 7.36748 1.3125 4.68751C1.3125 2.00754 2.72178 1.1892 4.375 1.18751C5.25 1.18662 6.45391 1.7364 7.00005 2.50001C7.54609 1.7364 8.74018 1.19238 9.625 1.18751Z" stroke="#70676F" stroke-linejoin="round" />
+                </svg>
+            </td>
+        </tr>`;
 
       const tablaResultadosActual = interaccion.tablaResultados.innerHTML;
       interaccion.tablaResultados.innerHTML = tablaResultadosActual + resultado;
@@ -305,13 +325,14 @@ export default class Interaccion {
           //Pintar info
           let obj = this.inventario.find((obj) => obj.id === identificador);
 
-          this.tool_torre.innerHTML = obj.torre;
-          this.tool_apto.innerHTML = obj.apto_tit;
-          this.tool_ac.innerHTML = obj.area_ac;
-          this.tool_ap.innerHTML = obj.area_ap;
+          //this.tool_torre.innerHTML = obj.torre;
+          this.tool_apto.innerHTML = obj.nombre;
+          this.tool_ac.innerHTML = obj.areaPrivada;
+          this.tool_ap.innerHTML = obj.areaConstruida;
           //this.tool_img.innerHTML = `<img src="${obj.img_planta}" alt="Planta de unidad">`
+          //this.tool_img.innerHTML = `<img src="https://proyectosappicua.com/maqueta/img/syrah-apto-1_thumb.jpg" alt="Planta de unidad">`;
 
-          this.tool_img.innerHTML = `<img src="https://proyectosappicua.com/maqueta/img/syrah-apto-1_thumb.jpg" alt="Planta de unidad">`;
+          this.tool_img.innerHTML = `<img src="/static/plantas/thumb_${obj.idTipoInmueble}.jpg" alt="Planta de unidad">`;
         }
       }
     });
@@ -377,24 +398,16 @@ export default class Interaccion {
     let obj = interaccion.inventario.find((obj) => obj.id === aptoActivo);
     //Pintar info
     interaccion.modalApto.contenedor.classList.add("activo");
-    interaccion.modalApto.apto_tit.innerHTML = obj.apto_tit;
-    interaccion.modalApto.pre_tit.innerHTML = "Torre " + obj.torre;
-    interaccion.modalApto.suf_tit.innerHTML = "Apto tipo " + obj.tipo;
-    interaccion.modalApto.area_ac.innerHTML = obj.area_ac;
-    interaccion.modalApto.area_ap.innerHTML = obj.area_ap;
+    interaccion.modalApto.apto_tit.innerHTML = obj.nombre;
+    //interaccion.modalApto.pre_tit.innerHTML = "Torre " + obj.torre;
+    interaccion.modalApto.suf_tit.innerHTML = obj.tipoInmueble;
+    interaccion.modalApto.area_ac.innerHTML = obj.areaPrivada;
+    interaccion.modalApto.area_ap.innerHTML = obj.areaConstruida;
     //interaccion.modalApto.img_planta.innerHTML = `<img src="${obj.img_planta}" alt="Planta de unidad">`
-    interaccion.modalApto.img_planta.innerHTML = `<img src="https://proyectosappicua.com/maqueta/img/syrah-apto-1.jpg" alt="Planta de unidad">`;
-    //area_b.innerHTML = obj.area_b
-    /*interaccion.modalApto.atributos.innerHTML = `<li>Habitaciones: ${obj.habitaciones}</li><li>Baños: ${obj.banos}</li>`
-        if (obj.atributos) {
-            let atrs = obj.atributos.split(',');
+    //interaccion.modalApto.img_planta.innerHTML = `<img src="https://proyectosappicua.com/maqueta/img/syrah-apto-1.jpg" alt="Planta de unidad">`;
+    interaccion.modalApto.img_planta.innerHTML = `<img src="/static/plantas/planta_${obj.idTipoInmueble}.jpg" alt="Planta de unidad">`;
+    interaccion.modalApto.area_b.innerHTML = obj.areaBalcon
     
-            atrs.forEach((item) => {
-                let li = document.createElement("li");
-                li.innerText = item;
-                atributos.appendChild(li);
-            })
-        }*/
     //Agregar tour
     /*if (obj.tour_url) {
             btnTour.classList.add('visible')
@@ -424,7 +437,7 @@ export default class Interaccion {
     this.modalApto.apto_tit.innerHTML = "";
     this.modalApto.area_ac.innerHTML = "";
     this.modalApto.area_ap.innerHTML = "";
-    //this.modalApto.area_b.innerHTML = ''
+    this.modalApto.area_b.innerHTML = ''
     this.modalApto.atributos.innerHTML = "";
     this.modalApto.img_planta.innerHTML = "";
     //this.modalApto.img_piso.innerHTML = ''

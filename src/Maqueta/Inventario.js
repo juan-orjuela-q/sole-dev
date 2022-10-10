@@ -30,16 +30,28 @@ export default class Inventario {
         }
     }
 
-
+//COGNIS
     cargarMascaras() {
 
         for (const mascara of this.recursos.items.mascarasInventario.scene.children) {
-            //Ejemplo name: "torre1_apto102_tipo1_cam1"
+            
+            //Ejemplo usual: "torre1_apto102_tipo1_cam1"
             const name = mascara.name,
                 id = name.substring(0, name.match("_tipo").index),
                 torre = name.substring(name.match("torre").index + 5, name.match("_apto").index),
-                num = name.substring(name.match("apto").index + 4, name.match("_tipo").index)
-            //tipo = name.substring(name.match("tipo").index + 4, name.match("_cam").index),
+                num = name.substring(name.match("apto").index + 3, name.match("_tipo").index)
+
+
+
+
+
+            //Ejemplo Colpatria: torre1_APT-0426_cam1
+            //Colpatria el.nombre: "APT-0426"
+            //Colpatria
+            // const name = mascara.name,
+            //     id = name.substring(7, name.match("_cam").index),
+            //     torre = name.substring(name.match("torre").index + 5, name.match("_APT").index),
+            //     num = name.substring(name.match("APT").index + 3, name.match("_cam").index)
             //cam = name.substring(name.match("cam").index + 3, name.length)
 
             //Agregar atributos
@@ -66,7 +78,7 @@ export default class Inventario {
         this.mascarasProyecto.add(this.recursos.items.mascarasInventario.scene)
         //this.btnFiltrar.addEventListener('click', ()=> {this.consultar(event, this.inventario)}, false)
     }
-   
+   //COGNIS ignorar por ahora
     consultar(e, inventario) {
         e.preventDefault()
         e.stopPropagation()
