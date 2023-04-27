@@ -29,6 +29,7 @@ export default class Mundo {
 
     this.grupoMapa = new THREE.Group();
     this.grupoVias = new THREE.Group();
+    this.grupoTransito = new THREE.Group();
     this.grupoAndenes = new THREE.Group();
     this.grupoManzanas = new THREE.Group();
     this.grupoTransitoFijo = new THREE.Group();
@@ -58,6 +59,7 @@ export default class Mundo {
       this.crearArboles();
       this.crearArbolesRelleno();
       this.crearMascaras();
+      this.crearNubes();
       this.crearDebug();
 
       this.ambiente = new Ambiente();
@@ -75,7 +77,7 @@ export default class Mundo {
       new THREE.SphereGeometry(0.05, 16, 16),
       new THREE.MeshStandardMaterial({ color: this.colores.paleta.color3 })
     );
-    this.escena.add(this.bolaHelper)
+    //this.escena.add(this.bolaHelper)
   }
   crearTerreno() {
     //Piso
@@ -105,7 +107,7 @@ export default class Mundo {
     );
     this.escena.add(this.nubes);
     //Lago
-    const lago = new THREE.Mesh(
+    /*const lago = new THREE.Mesh(
       new THREE.PlaneGeometry(3.75, 3.75, 4),
       this.materiales.materialesContexto.lago
     );
@@ -116,7 +118,7 @@ export default class Mundo {
     lago.position.x = 4.5
     lago.position.y = 0.05;
     lago.position.z = 7.25
-    this.escena.add(lago);
+    this.escena.add(lago);*/
   }
   rotarNubes() {
     this.nubes.rotation.z += 0.001;
@@ -149,10 +151,32 @@ export default class Mundo {
       this.grupoEdificios,
       true,
       0.75,
-      this.materiales.materialesContexto.edificiosLinea
+      //this.materiales.materialesContexto.edificiosLinea
     );
     this.grupoEdificios.position.set(0, 0, -0.76);
     this.grupoMapa.add(this.grupoEdificios);
+
+    //Vias
+    this.mapa.entrada = new Mapa(
+      this.recursos.items.svg_entrada,
+      this.materiales.materialesContexto.entrada,
+      this.grupoTransito,
+      true,
+      0.025
+    );
+    this.mapa.salida = new Mapa(
+      this.recursos.items.svg_salida,
+      this.materiales.materialesContexto.salida,
+      this.grupoTransito,
+      true,
+      0.025
+    );
+    this.grupoTransito.position.set(0, 0, -0.025);
+    this.grupoTransito.visible = false
+    this.grupoMapa.add(this.grupoTransito);
+    
+    
+
     //Configurar mapa
     this.grupoMapa.rotation.x = Math.PI * 0.5;
     this.grupoMapa.position.set(-69.41, 0.01, -65.04);
@@ -460,11 +484,20 @@ export default class Mundo {
 
     //this.arboles = new Modelo(this.recursos.items.modelo_arboles, this.materiales.materialesProyecto.arboles, this.grupoProyecto)
     //this.arbustos = new Modelo(this.recursos.items.modelo_arbustos, this.materiales.materialesProyecto.arbustos, this.grupoProyecto)
-    this.barandas = new Modelo(
+    /*this.barandas = new Modelo(
       this.recursos.items.modelo_barandas,
       this.materiales.materialesProyecto.barandas,
       this.grupoProyecto
     );
+    
+    
+    
+
+    this.juegos = new Modelo(
+      this.recursos.items.modelo_juegos,
+      this.materiales.materialesProyecto.juegos,
+      this.grupoProyecto
+    );*/
     this.bbq = new Modelo(
       this.recursos.items.modelo_bbq,
       this.materiales.materialesProyecto.bbq,
@@ -489,40 +522,39 @@ export default class Mundo {
       this.grupoProyecto,
       false
     );
-
-    this.juegos = new Modelo(
-      this.recursos.items.modelo_juegos,
-      this.materiales.materialesProyecto.juegos,
-      this.grupoProyecto
-    );
     this.juegos_2 = new Modelo(
       this.recursos.items.modelo_juegos_2,
       this.materiales.materialesProyecto.juegos_2,
       this.grupoProyecto
     );
-    // this.luminarias = new Modelo(
-    //   this.recursos.items.modelo_luminarias,
-    //   this.materiales.materialesProyecto.luminarias,
-    //   this.grupoProyecto
-    // );
+     this.luminarias = new Modelo(
+       this.recursos.items.modelo_luminarias,
+       this.materiales.materialesProyecto.luminarias,
+       this.grupoProyecto
+     );
+
+     this.luminarias.modelo.scale.z = 2.49
+     this.luminarias.modelo.position.x = -28.56
+     this.luminarias.modelo.position.z = -175.53
+     this.luminarias.modelo.rotation.y = 0.11
 
     this.comercio = new Modelo(
       this.recursos.items.modelo_comercio,
       this.materiales.materialesProyecto.vecinos,
       this.grupoProyecto,
-      true
+      false
     );
     this.proyecto_vecino = new Modelo(
       this.recursos.items.modelo_proyecto_vecino,
       this.materiales.materialesProyecto.vecinos,
       this.grupoProyecto,
-      true
+      false
     );
     this.vecinos = new Modelo(
       this.recursos.items.modelo_vecinos,
       this.materiales.materialesProyecto.vecinos,
       this.grupoProyecto,
-      true
+      false
     );
 
     //Configurar modelos
@@ -555,6 +587,51 @@ export default class Mundo {
         .max(10)
         .step(0.01)
         .name("Proyecto z");
+
+      this.debugProyecto
+        .add(this.luminarias.modelo.position, "x")
+        .min(-50)
+        .max(50)
+        .step(0.01)
+        .name("Luminarias x");
+      this.debugProyecto
+        .add(this.luminarias.modelo.position, "y")
+        .min(-1)
+        .max(1)
+        .step(0.001)
+        .name("Luminarias y");
+      this.debugProyecto
+        .add(this.luminarias.modelo.position, "z")
+        .min(-250)
+        .max(250)
+        .step(0.01)
+        .name("Luminarias z");
+
+        this.debugProyecto
+        .add(this.luminarias.modelo.scale, "x")
+        .min(0.5)
+        .max(3)
+        .step(0.01)
+        .name("Luminarias s x");
+      this.debugProyecto
+        .add(this.luminarias.modelo.scale, "y")
+        .min(0.5)
+        .max(3)
+        .step(0.001)
+        .name("Luminarias s y");
+      this.debugProyecto
+        .add(this.luminarias.modelo.scale, "z")
+        .min(0.5)
+        .max(5)
+        .step(0.01)
+        .name("Luminarias s z");
+
+        this.debugProyecto
+        .add(this.luminarias.modelo.rotation, "y")
+        .min(-90)
+        .max(90)
+        .step(0.01)
+        .name("Luminarias rot y");
     }
     this.escena.add(this.grupoProyecto);
   }
@@ -571,6 +648,39 @@ export default class Mundo {
     );
     //this.mascarasProyecto.rotation.y = Math.PI * -0.3;
     this.escena.add(this.mascarasProyecto);
+  }
+  crearNubes() {
+    const geometria = new THREE.SphereGeometry(120, 32, 32),
+      texturaNubes = this.recursos.items.textura_nubes;
+
+    texturaNubes.wrapS = THREE.RepeatWrapping;
+    texturaNubes.wrapT = THREE.RepeatWrapping;
+    texturaNubes.repeat.set(3, 3);
+
+    const materialNubes = new THREE.MeshBasicMaterial({
+      fog: false,
+      side: THREE.BackSide,
+      transparent: true,
+      map: texturaNubes,
+      alphaMap: texturaNubes,
+    });
+
+    const materialNubes2 = new THREE.MeshStandardMaterial({
+      fog: true,
+      side: THREE.BackSide,
+      transparent: true,
+      color: '#deeaef',
+      opacity: 0.5
+    });
+
+    const esferaNubes = new THREE.Mesh(geometria, materialNubes);
+
+    const esferaNubes2 = new THREE.Mesh(geometria, materialNubes2);
+    esferaNubes2.scale.set(0.95, 0.95, 0.95)
+
+    // Añadir la malla a la escena
+    /this.escena.add(esferaNubes);
+    this.escena.add(esferaNubes2);
   }
 
   crearDebug() {

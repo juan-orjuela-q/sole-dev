@@ -34,16 +34,18 @@ export default class Mapa {
                         depth: this.extrusionDepth,
                         bevelEnabled: false
                     })
-                    
+                    const mesh = new THREE.Mesh(meshGeometry, this.material)
+                    mesh.castShadow = true
+                    mesh.receiveShadow = true
                     if(this.materialLinea) {
                         const linesGeometry = new THREE.EdgesGeometry(meshGeometry)
-                        const mesh = new THREE.Mesh(meshGeometry, this.material)
+                        //
                         const lines = new THREE.LineSegments(linesGeometry, this.materialLinea)
                         //mesh.castShadow = true
                         this.grupo.add(mesh, lines)
                     } else {
-                        const mesh = new THREE.Mesh(meshGeometry, this.material)
-                        mesh.receiveShadow = true
+                        //const mesh = new THREE.Mesh(meshGeometry, this.material)
+                        
                         this.grupo.add(mesh)
                     }
                 }

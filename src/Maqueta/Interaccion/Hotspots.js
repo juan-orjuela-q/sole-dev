@@ -38,6 +38,7 @@ export default class Hotspots {
             label: 'Piscina',
             img: 'https://chromastudio.co/sole/wp-content/uploads/2022/03/piscina.jpg'
         },
+        //Cercanias
         {
             position: new THREE.Vector3(-5.9, 0.55, -2.82),
             element: document.querySelector('.hotspot-6')
@@ -61,6 +62,16 @@ export default class Hotspots {
         {
             position: new THREE.Vector3(14, 0.6, -45),
             element: document.querySelector('.hotspot-11')
-        }]
+        },
+        //Vias
+        {
+            position: new THREE.Vector3(10, 0.75, 0),
+            element: document.querySelector('.hotspot-12')
+        },
+        {
+            position: new THREE.Vector3(-5.0, 0.75, 12.5),
+            element: document.querySelector('.hotspot-13')
+        }
+    ]
     }
 }

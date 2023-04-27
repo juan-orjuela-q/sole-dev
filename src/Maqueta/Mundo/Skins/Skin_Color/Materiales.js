@@ -33,6 +33,12 @@ export default class Materiales {
     texturaPasto.wrapT = THREE.RepeatWrapping;
     texturaPasto.repeat.set(250, 250);
 
+    const texturaEdificios = this.recursos.items.patron_cartonEdificios;
+    texturaEdificios.wrapS = THREE.RepeatWrapping;
+    texturaEdificios.wrapT = THREE.RepeatWrapping;
+    texturaEdificios.repeat.x = 0.5;
+    texturaEdificios.repeat.y = 0.3;
+
     //Materiales proyecto
     this.materialesProyecto.torre_baja = new THREE.MeshStandardMaterial({
       map: this.recursos.items.textura_torre_baja,
@@ -104,6 +110,7 @@ export default class Materiales {
 
     this.materialesProyecto.vecinos = new THREE.MeshStandardMaterial({
       color: this.colores.coloresMundo.colorEdificios,
+      
       transparent: true,
       opacity: 0.85,
     });
@@ -128,6 +135,7 @@ export default class Materiales {
       displacementScale: 27,
       //color: this.colores.coloresMundo.colorTerreno,
       color: "#66755c",
+      //color: "#6a7150"
     });
 
     const texturaPiso = this.recursos.items.patron_cartographer;
@@ -162,17 +170,21 @@ export default class Materiales {
       depthWrite: true,
     });
 
-    const texturaEdificios = this.recursos.items.patron_cartonEdificios;
-    texturaEdificios.wrapS = THREE.RepeatWrapping;
-    texturaEdificios.wrapT = THREE.RepeatWrapping;
-    texturaEdificios.repeat.x = 0.5;
-    texturaEdificios.repeat.y = 0.3;
+    //TRansito
+    this.materialesContexto.entrada = new THREE.MeshStandardMaterial({
+      color: this.colores.coloresMundo.colorEntrada,      
+    });
+    this.materialesContexto.salida = new THREE.MeshStandardMaterial({
+      color: this.colores.coloresMundo.colorSalida,      
+    });
+
+    
 
     this.materialesContexto.edificios = new THREE.MeshStandardMaterial({
       color: this.colores.coloresMundo.colorEdificios,
       map: texturaEdificios,
-      transparent: true,
-      opacity: 0.85,
+      transparent: false,
+      opacity: 1,
       polygonOffset: true,
       polygonOffsetFactor: 1,
       polygonOffsetUnits: 1,
@@ -344,8 +356,8 @@ export default class Materiales {
     const texturaNubes = this.recursos.items.textura_nubes;
     texturaNubes.wrapS = THREE.RepeatWrapping;
     texturaNubes.wrapT = THREE.RepeatWrapping;
-    texturaNubes.repeat.x = 10;
-    texturaNubes.repeat.y = 10;
+    texturaNubes.repeat.x = 6;
+    texturaNubes.repeat.y = 6;
 
     this.materialesContexto.nubes = new THREE.MeshBasicMaterial({
       color: this.colores.coloresMundo.colorNubes,

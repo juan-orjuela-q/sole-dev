@@ -18,8 +18,7 @@
     <header id="encabezado">
         <div class="elementor-column elementor-col-33">
             <div class="elementor-widget-container"><a href="https://chromastudio.co/sole/"><img
-                        src="/static/img/logo-proyecto.svg" width="106px"
-                        height="auto" alt="sole-logo"></a></div>
+                        src="/static/img/logo-proyecto.svg" width="106px" height="auto" alt="sole-logo"></a></div>
         </div>
         <div class="elementor-column elementor-col-33">
             <ul id="menu-menu-principal">
@@ -97,33 +96,33 @@
     </nav> -->
     <!--Hotspots-->
     <div class="hotspots-wrapper hw-zonas">
-        <div class="hotspot hotspot-0">
+        <div class="hotspot hotspot-0" data-texto="Terraza BBQ" data-imagen="terraza.jpg">
             <div class="label"></div>
             <div class="texto">Terraza BBQ</div>
         </div>
-        <div class="hotspot hotspot-1">
+        <div class="hotspot hotspot-1" data-texto="Social Kitchen" data-imagen="social-kitchen.jpg">
             <div class="label"></div>
             <div class="texto">Social Kitchen</div>
         </div>
-        <div class="hotspot hotspot-2">
+        <div class="hotspot hotspot-2" data-texto="Lobby" data-imagen="lobby.jpg">
             <div class="label"></div>
             <div class="texto">Lobby</div>
         </div>
-        <div class="hotspot hotspot-3">
+        <div class="hotspot hotspot-3" data-texto="Salón de juegos" data-imagen="salon-juegos.jpg">
             <div class="label"></div>
             <div class="texto">Salón de juegos</div>
         </div>
-        <div class="hotspot hotspot-4">
+        <div class="hotspot hotspot-4" data-texto="Salón social" data-imagen="salon-social.jpg">
             <div class="label"></div>
             <div class="texto">Salón social</div>
         </div>
-        <div class="hotspot hotspot-5">
+        <div class="hotspot hotspot-5" data-texto="Piscina" data-imagen="piscina.jpg">
             <div class="label"></div>
             <div class="texto">Piscina</div>
         </div>
     </div>
     <div class="hotspots-wrapper hw-cercanias">
-        <div class="hotspot hotspot-6">
+        <div class="hotspot hotspot-6 cerc-comercio">
             <div class="label"></div>
             <div class="texto">Comercio
                 <div class="distancia">
@@ -131,7 +130,7 @@
                 </div>
             </div>
         </div>
-        <div class="hotspot hotspot-7">
+        <div class="hotspot hotspot-7 cerc-interes">
             <div class="label"></div>
             <div class="texto">Club El Rancho
                 <div class="distancia">
@@ -140,7 +139,7 @@
             </div>
         </div>
 
-        <div class="hotspot hotspot-8">
+        <div class="hotspot hotspot-8 cerc-comercio">
             <div class="label"></div>
             <div class="texto">Makro
                 <div class="distancia">
@@ -149,7 +148,7 @@
                 </div>
             </div>
         </div>
-        <div class="hotspot hotspot-9">
+        <div class="hotspot hotspot-9 cerc-educacion">
             <div class="label"></div>
             <div class="texto">Gimnasio Vermont
                 <div class="distancia">
@@ -158,7 +157,7 @@
                 </div>
             </div>
         </div>
-        <div class="hotspot hotspot-10">
+        <div class="hotspot hotspot-10 cerc-comercio">
             <div class="label"></div>
             <div class="texto">C.C Santafé
                 <div class="distancia">
@@ -166,7 +165,7 @@
                 </div>
             </div>
         </div>
-        <div class="hotspot hotspot-11">
+        <div class="hotspot hotspot-11 cerc-interes">
             <div class="label"></div>
             <div class="texto">Chía
                 <div class="distancia">
@@ -176,24 +175,17 @@
         </div>
     </div>
     <div class="hotspots-wrapper hw-vias activo">
+        <div class="hotspot hotspot-12">
+            <div class="label"></div>
+            <div class="texto">Autopista Norte</div>
+        </div>
         <div class="hotspot hotspot-13">
             <div class="label"></div>
-            <div class="texto">Av. El Dorado</div>
+            <div class="texto">Calle 195</div>
         </div>
-        <div class="hotspot hotspot-14">
-            <div class="label"></div>
-            <div class="texto">Av. Boyacá</div>
-        </div>
-        <div class="hotspot hotspot-15">
-            <div class="label"></div>
-            <div class="texto">Av. Carrera 70</div>
-        </div>
-        <div class="hotspot hotspot-16">
-            <div class="label"></div>
-            <div class="texto">Av. La Esperanza</div>
-        </div>
+
     </div>
-    <div class="hotspots-wrapper hw-apto activo">
+    <div class="hotspots-wrapper hw-apto">
         <div id="tooltip-apto">
             <div class="tool-img">
 
@@ -243,140 +235,64 @@
                 <h3>Filtra por:</h3>
                 <form action="#">
                     <div class="form-control">
-                        <label for="">Número / Nombre</label>
-                        <input type="text" placeholder="Número o nombre de la unidad">
-                    </div>
-                    <div class="form-control">
-                        <label for="torre">Torre</label>
-
-                        <select name="torre" id="torre">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </div>
-                    <div class="form-control">
-                        <label for="etapa">Etapa</label>
-                        <select name="etapa" id="etapa">
-                            <option disabled selected>Selecciona una opción</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        <label for="apto_tit">Número / Nombre</label>
+                        <input type="text" placeholder="Número o nombre de la unidad" name="nombre" id="nombre" />
                     </div>
                     <div class="form-control menu-tipologias">
                         <label>Tipología</label>
-                        <ul>
-                            <li>
-                                <a href="#" data-tipo='apto_tipo_1' class="tipo-enlace"></a>
-                                <div class="menu-item-info">
-                                    <div class="menu-item-col-img">
-                                        <img src="https://chromastudio.co/sole/wp-content/uploads/2022/03/mini-apto-1.jpg"
-                                            alt="Apto">
-                                    </div>
-                                    <div class="menu-item-col-txt">
-                                        <h2>TIPO 1</h2>
-                                        <p class="menu-item-ac">A.C: <span>106.52</span>m²</p>
-                                        <p class="menu-item-ap">A.P: <span>93.72</span>m²</p>
+                        <div id="contenedorFiltrosTipologias">
 
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="#" data-tipo='apto_tipo_2' class="tipo-enlace"></a>
-                                <div class="menu-item-info">
-                                    <div class="menu-item-col-img">
-                                        <img src="https://chromastudio.co/sole/wp-content/uploads/2022/03/mini-apto-2.jpg"
-                                            alt="Apto">
-                                    </div>
-                                    <div class="menu-item-col-txt">
-                                        <h2>TIPO 2</h2>
-                                        <p class="menu-item-ac">A.C: <span>96.78</span>m²</p>
-                                        <p class="menu-item-ap">A.P: <span>85.83</span>m²</p>
-
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="#" data-tipo='apto_tipo_3' class="tipo-enlace"></a>
-                                <div class="menu-item-info">
-                                    <div class="menu-item-col-img">
-                                        <img src="https://chromastudio.co/sole/wp-content/uploads/2022/03/mini-apto-3.jpg"
-                                            alt="Apto">
-                                    </div>
-                                    <div class="menu-item-col-txt">
-                                        <h2>TIPO 3</h2>
-                                        <p class="menu-item-ac">A.C: <span>86.59</span>m²</p>
-                                        <p class="menu-item-ap">A.P: <span>76.66</span>m²</p>
-
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="form-fila">
-                        <div class="form-control">
-                            <label for="habitaciones">Habitaciones</label>
-                            <select name="habitaciones" id="habitaciones">
-                                <option disabled selected>Selecciona una opción</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-                        <div class="form-control">
-                            <label for="banos">Baños</label>
-                            <select name="banos" id="banos">
-                                <option disabled selected>Selecciona una opción</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
                         </div>
                     </div>
-                    <div class="form-fila">
-                        <div class="form-control">
-                            <label>Valor</label>
-                            <input type="number" name="valor-desde" id="valor-desde" min="0" placeholder="$ Desde">
-                        </div>
-                        <div class="form-control">
-                            <input type="number" name="valor-hasta" id="valor-hasta" min="0" placeholder="$ Hasta">
-                        </div>
+                    <!-- <div class="form-control">
+                        <label for="vista">Vista</label>
+                        <select name="vista" id="vista">
+                            <option disabled selected value>Selecciona una opción</option>
+                            <option value="Interior">Interior</option>
+                            <option value="Exterior">Exterior</option>
+                        </select>
+                    </div>
+                     -->
+                     <div class="form-control">
+                        <label for="disponibilidad">Estado</label>
+                        <select name="estado" id="estado">
+                            <option disabled selected value>Selecciona una opción</option>
+                            <option value="VENDIDO">VENDIDO</option>
+                            <option value="OPCIONADO">OPCIONADO</option>
+                            <option value="DISPONIBLE">DISPONIBLE</option>
+                            <option value="BLOQUEADA PARA LA VENTA">BLOQUEADA PARA LA VENTA</option>
+                        </select>
                     </div>
                     <div class="form-control">
-                        <input type="submit" id="filtrar" value="Filtrar">
+                        <input type="submit" id="filtrar" value="Filtrar" />
                     </div>
-                    <div class="form-control"><a href="#" id="limpiar-filtros">Limpiar filtros</a></div>
+                    <div class="form-control">
+                        <a href="#" id="limpiar-filtros">Limpiar filtros</a>
+                    </div>
                 </form>
+
             </div>
             <div id="resultados">
                 <div class="form-control"><label for="">Filtrando por</label>
-                     <!--COGNIS-->
+                    <!--COGNIS-->
                     <ul class="filtros-aplicados">
-                        <li>Tipo 1</li>
-                        <li>Tipo 2</li>
-                        <li>Hab: 2</li>
-                        <li>Piso: 5 - 12</li>
-                        <li>Valor: $345.000.000 - $435.000.000</li>
+                        
                     </ul>
                 </div>
+                <span style="font-size: 0.875rem; margin-bottom: 1rem; display: block;">Mostrando <span id="numResultados">0</span> resultados</span>
                 <div class="listado-resultados">
                     <!--COGNIS-->
-                    <span>Mostrando 5 resultados</span>
+                    
                     <div class="listado-resultados-scroll">
                         <!--COGNIS Ver documentacion https://www.kryogenix.org/code/browser/sorttable/-->
                         <table class="sortable">
                             <thead>
                                 <tr>
                                     <th>Apto</th>
-                                    <th>Hab.</th>
                                     <th>Piso</th>
-                                    <th>A.P (m²)</th>
                                     <th>A.C (m²)</th>
-                                    <th>A.Balcón (m²)</th>
-                                    <th>Valor</th>
-                                    <th></th>
+                                    <th>A.P (m²)</th>
+                                    <th>Estado</th>                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -421,35 +337,36 @@
                     </p>
                 </div>
                 <div id="filtros-cercanias">
-                    <div class="form-control">
+                    <!-- <div class="form-control">
                         <label>
-                            <input type="checkbox" name="" id="cerc-acceso">
+                            <input type="checkbox" name="" data-cercanias="cerc-acceso">
                             <span>Acceso</span></label>
+                    </div> -->
+                    <div class="form-control">
+                        <label>
+                            <input type="checkbox" name="" data-cercanias="cerc-comercio">
+                            <span>Comercio</span></label>
                     </div>
                     <div class="form-control">
                         <label>
-                            <input type="checkbox" name="" id="cerc-cc">
-                            <span>Centros comerciales</span></label>
-                    </div>
-                    <div class="form-control">
-                        <label>
-                            <input type="checkbox" name="" id="cerc-parques">
-                            <span>Parques</span></label>
-                    </div>
-                    <div class="form-control">
-                        <label>
-                            <input type="checkbox" name="" id="cerc-bancos">
-                            <span>Bancos</span></label>
-                    </div>
-                    <div class="form-control">
-                        <label>
-                            <input type="checkbox" name="" id="cerc-colegios">
+                            <input type="checkbox" name="" data-cercanias="cerc-educacion">
                             <span>Colegios y universidades</span></label>
                     </div>
                     <div class="form-control">
                         <label>
-                            <input type="checkbox" name="" id="cerc-otros">
-                            <span>Otros</span></label>
+                            <input type="checkbox" name="" data-cercanias="cerc-interes">
+                            <span>Puntos de interés</span></label>
+                    </div>
+                    <div class="form-control">
+                        <label>
+                            <input type="checkbox" name="" data-cercanias="cerc-accesos">
+                            <span>Vías de acceso</span>
+                            <div class="convenciones">
+                                <span>Entrada</span>
+                                <span>Salida</span>
+                            </div>
+                        </label>
+
                     </div>
                 </div>
 

@@ -17,6 +17,7 @@ export default class Interaccion {
     this.menuFlotanteBtns = this.menuFlotante.querySelectorAll("a");
     this.btnsCerrar = document.querySelectorAll(".btnCerrar-modal");
     this.btnFiltrar = document.getElementById("filtrar");
+    this.btnLimpiarFiltros = document.getElementById('limpiar-filtros')
     this.modalUnidades = document.getElementById("modal-unidades");
     this.btnNuevaBusqueda = document.getElementById("btn-nueva-busqueda");
     this.btnCerrarBusqueda =
@@ -24,6 +25,33 @@ export default class Interaccion {
     this.tablaResultados = document.querySelector("#resultados tbody");
     this.filasApto = document.querySelectorAll(".listado-resultados tbody tr");
     this.btnMostrarZonas = document.getElementById("btnZonas");
+    //Cercanias
+    this.cercanias = {};
+    this.cercanias.contenedorFiltros =
+      document.getElementById("filtros-cercanias");
+    this.cercanias.filtros =
+      this.cercanias.contenedorFiltros.querySelectorAll("input");
+
+    this.cercanias.filtros.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        const filtro = event.target.dataset.cercanias;
+        if (filtro === 'cerc-accesos') {
+          if (this.maqueta.mundo.grupoTransito.visible) {
+            this.maqueta.mundo.grupoTransito.visible = false
+          } else {
+            this.maqueta.mundo.grupoTransito.visible = true
+          }
+        }
+        const hotspotsCercanias = document.querySelectorAll(
+          `.hw-cercanias .${filtro}`
+        );
+
+        hotspotsCercanias.forEach((hotspot) =>
+          hotspot.classList.toggle("oculto")
+        );
+      });
+    });
+
     //Modal hotspot zonas
     this.btnCerrarZonas = document.querySelector(
       "#modal-zonas .btnCerrar-modal"
@@ -33,15 +61,14 @@ export default class Interaccion {
     this.hotLabel = this.modalHotspot.querySelector(".hotspot-label");
     this.hotspotZonasBtn = document.querySelectorAll(".hw-zonas .hotspot");
 
-    this.hotspotZonasBtn.forEach((item) => {
-      item.addEventListener("click", (event) => {
-        event.preventDefault();
-        this.modalHotspot.classList.add("activo");
-        //this.hotImg.innerHTML = `<img src="${item.img}" alt="Planta">`
-        this.hotImg.innerHTML = `<img src="img/zona-juvenil.jpg" alt="Planta">`;
-        this.hotLabel.innerHTML = "Syrah - Zonas sociales";
-      });
-    });
+    this.hotspotZonasBtn.forEach(item => {
+      item.addEventListener('click', event => {
+        event.preventDefault()
+        this.modalHotspot.classList.add('activo')
+        this.hotImg.innerHTML = `<img src="https://chromastudio.co/sole/sole_zonas/${item.dataset.imagen}" alt="Planta">`
+        this.hotLabel.innerHTML = item.dataset.texto
+      })
+    })
     //Temp cerrar modal zonas
     //Boton cerrar
     this.modalHotspot
@@ -157,6 +184,8 @@ export default class Interaccion {
     );
     //Ver ejemplo de inventario
     console.log("Ejemplo inventario: ", this.inventario[0]);
+
+    this.crearFiltroTipos()
     //Cerrar busqueda
     this.btnCerrarBusqueda.addEventListener(
       "click",
@@ -173,6 +202,19 @@ export default class Interaccion {
       },
       false
     );
+    //Buscador
+    this.buscadorFiltros = document.querySelector('#buscador form');
+    this.campo_apto_tit = this.buscadorFiltros.querySelector('#nombre');
+
+    //this.campo_vista = this.buscadorFiltros.querySelector('#vista');
+    this.campo_disponibilidad = this.buscadorFiltros.querySelector('#estado');
+
+    this.buscadorFiltros.addEventListener('submit', () => {
+      event.preventDefault()
+      this.filtrar(this)
+    }, false)
+
+    this.btnLimpiarFiltros.addEventListener('click', () => { this.buscadorFiltros.reset() }, false)
   }
   //Cerrar busqueda temp
   cerrarBusqueda(interaccion) {
@@ -191,93 +233,140 @@ export default class Interaccion {
 
     interaccion.modalUnidades.classList.remove("mostrando-resultados");
   }
-  // COGNIS
+  // Depende de inventario
+  filtrarInventario(interaccion) {
+
+    const filtrosAplicados = document.querySelector('.filtros-aplicados'),
+      crearMarca = (etiqueta, valor) => {
+        let li = document.createElement("li");
+        filtrosAplicados.appendChild(li);
+        li.append(`${etiqueta}: ${valor}`)
+      }
+
+    const campos_tipo = document.querySelectorAll('#contenedorFiltrosTipologias input[type="checkbox"]:checked');
+    const tiposSeleccionados = [];
+    campos_tipo.forEach((checkbox) => {
+      tiposSeleccionados.push(parseInt(checkbox.value));
+    });
+
+    if (interaccion.campo_apto_tit.value) {
+      crearMarca('Nombre', interaccion.campo_apto_tit.value)
+    }
+
+    if(tiposSeleccionados.length > 0) {
+      tiposSeleccionados.forEach(tipo => {
+        crearMarca('Tipo', document.querySelector(`#contenedorFiltrosTipologias input[value="${tipo}"] + div h2`).innerText)
+      })
+        
+    }
+
+    /*if(interaccion.campo_vista.value) {
+        crearMarca('Vista', interaccion.campo_vista.value)
+    }*/
+
+    if (interaccion.campo_disponibilidad.value) {
+      crearMarca('Disponibilidad', interaccion.campo_disponibilidad.value)
+    }
+
+    const filteredData = [];
+
+
+
+    for (let obj of interaccion.inventario) {
+      let matches = true;
+      // Compara cada atributo del objeto con el valor del filtro correspondiente           
+
+      if (interaccion.campo_apto_tit.value) {
+        if (!obj.nombre.includes(interaccion.campo_apto_tit.value)) matches = false;
+      }
+
+      /*if(interaccion.campo_tipo_tit.value) {
+          if (interaccion.campo_tipo_tit.value && obj.tipo_tit.toString() !== interaccion.campo_tipo_tit.value) matches = false;
+      }*/
+
+      /*if(interaccion.campo_vista.value) {
+          if (interaccion.campo_vista.value && obj.vista !== interaccion.campo_vista.value) matches = false;
+      }*/
+      if (tiposSeleccionados.length > 0) {
+        if (obj.idTipoInmueble) {
+          if (!tiposSeleccionados.includes(obj.idTipoInmueble)) matches = false;
+        }
+      }
+
+      if (interaccion.campo_disponibilidad.value) {
+        if (obj.estado !== interaccion.campo_disponibilidad.value) matches = false;
+      }
+
+      if (obj.idTipoUnidad != 2) matches = false;
+      // Si todos los filtros coinciden, agrega el objeto al arreglo filtrado
+      if (matches) filteredData.push(obj);
+    }
+    // Puedes hacer lo que desees con el arreglo filtrado, por ejemplo, imprimirlo en la consola
+    const numResultados = document.getElementById('numResultados')
+    numResultados.innerHTML = filteredData.length
+    return filteredData
+
+  }
   filtrar(interaccion) {
     event.preventDefault();
+    document.querySelector('.filtros-aplicados').innerHTML = ''
+    const inventarioFiltrado = interaccion.filtrarInventario(interaccion);
+    console.log(inventarioFiltrado)
+
     interaccion.quitarAislamiento();
     //Limpiar máscaras
-    /*interaccion.maqueta.mundo.mascarasProyecto.traverse(child => {
-            if (child.type === "Mesh") {
-                child.visible = false
-            }
-        })*/
-    interaccion.tablaResultados.innerHTML = "";
+    interaccion.maqueta.mundo.mascarasProyecto.traverse(child => {
+      if (child.type === "Mesh") {
+        child.visible = false
+        child.layers.disable(1)
+      }
+    })
+    interaccion.tablaResultados.innerHTML = ''
     //Consultar json
-    for (let i = 0; i < interaccion.inventario.length; i++) {
-      //Usando id
-      //const infoID = interaccion.inventario[i].id;
+    for (let i = 0; i < inventarioFiltrado.length; i++) {
+      const infoID = inventarioFiltrado[i].id
 
-      //Usando nombre
-      const infoID = interaccion.inventario[i].nombre;
       //Prender los aptos del JSON
-      interaccion.maqueta.mundo.mascarasProyecto.traverse((child) => {
+      interaccion.maqueta.mundo.mascarasProyecto.traverse(child => {
         if (child.type === "Mesh") {
           if (child.userData.id === infoID) {
-            child.visible = true;
-            child.layers.enable(1);
+            child.visible = true
+            child.layers.enable(1)
           }
         }
-      });
+      })
       //Pintar tabla
-      // const resultado = `<tr data-apto="${interaccion.inventario[i].id}">
-      //           <td>${interaccion.inventario[i].torre}</td>
-      //           <td>${interaccion.inventario[i].apto_tit}</td>
-      //           <td>${interaccion.inventario[i].tipo_tit}</td>
-      //           <td>${interaccion.inventario[i].habitaciones}</td>
-      //           <td>${interaccion.inventario[i].piso}</td>
-      //           <td>${interaccion.inventario[i].area_ac}</td>
-      //           <td>$${Intl.NumberFormat("de-DE").format(
-      //             interaccion.inventario[i].valor
-      //           )}</td>
-      //           <td>
-      //               <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-      //                   <path fill-rule="evenodd" clip-rule="evenodd" d="M9.625 1.18751C11.2782 1.17842 12.6875 2.00754 12.6875 4.68751C12.6875 7.36748 6.99995 11.25 6.99995 11.25C6.99995 11.25 1.3125 7.36748 1.3125 4.68751C1.3125 2.00754 2.72178 1.1892 4.375 1.18751C5.25 1.18662 6.45391 1.7364 7.00005 2.50001C7.54609 1.7364 8.74018 1.19238 9.625 1.18751Z" stroke="#70676F" stroke-linejoin="round" />
-      //               </svg>
-      //           </td>
-      //       </tr>`;
+      const resultado =
+        `<tr data-apto="${inventarioFiltrado[i].nombre}" data-disponibilidad="${inventarioFiltrado[i].estado}">
+          <td>${inventarioFiltrado[i].nombre}</td>                         
+          <td>${inventarioFiltrado[i].numeroPiso}</td>
+          <td>${inventarioFiltrado[i].areaConstruida}</td>
+          <td>${inventarioFiltrado[i].areaPrivada}</td>          
+          <td>${inventarioFiltrado[i].estado}</td> 
+      </tr>`
 
-      const resultado = `<tr data-apto="${interaccion.inventario[i].nombre}">
-            <td>${interaccion.inventario[i].nombre.substring(4, interaccion.inventario[i].nombre.length)}</td>
-            <td>${interaccion.inventario[i].cantidadAlcobas}</td>
-            <td>${interaccion.inventario[i].numeroPiso}</td>
-            <td>${interaccion.inventario[i].areaPrivada}</td>
-            <td>${interaccion.inventario[i].areaConstruida}</td>
-            <td>${interaccion.inventario[i].areaBalcon}</td>
-            <td>$${Intl.NumberFormat("de-DE").format(
-              interaccion.inventario[i].valor
-            )}</td>
-            <td>
-                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.625 1.18751C11.2782 1.17842 12.6875 2.00754 12.6875 4.68751C12.6875 7.36748 6.99995 11.25 6.99995 11.25C6.99995 11.25 1.3125 7.36748 1.3125 4.68751C1.3125 2.00754 2.72178 1.1892 4.375 1.18751C5.25 1.18662 6.45391 1.7364 7.00005 2.50001C7.54609 1.7364 8.74018 1.19238 9.625 1.18751Z" stroke="#70676F" stroke-linejoin="round" />
-                </svg>
-            </td>
-        </tr>`;
-
-      const tablaResultadosActual = interaccion.tablaResultados.innerHTML;
-      interaccion.tablaResultados.innerHTML = tablaResultadosActual + resultado;
+      const tablaResultadosActual = interaccion.tablaResultados.innerHTML
+      interaccion.tablaResultados.innerHTML = tablaResultadosActual + resultado
       //Actualizar filasApto
-      interaccion.filasApto = document.querySelectorAll(
-        ".listado-resultados tbody tr"
-      );
+      interaccion.filasApto = document.querySelectorAll('.listado-resultados tbody tr')
 
-      interaccion.filasApto.forEach((item) => {
-        item.addEventListener(
-          "click",
-          () => interaccion.activarFila(event, interaccion),
-          false
-        );
-      });
+      interaccion.filasApto.forEach(item => {
+        item.addEventListener('click', () => interaccion.activarFila(event, interaccion), false)
+      })
     }
     //Mostrar resultados
-    interaccion.modalUnidades.classList.add("mostrando-resultados");
+    interaccion.modalUnidades.classList.add('mostrando-resultados')
 
     //Nueva busqueda
-    const btnNuevaBusqueda = document.getElementById("btn-nueva-busqueda");
-    btnNuevaBusqueda.addEventListener("click", (event) => {
+    const btnNuevaBusqueda = document.getElementById('btn-nueva-busqueda')
+    btnNuevaBusqueda.addEventListener('click', event => {
       event.preventDefault();
       //Mostrar filtros
-      interaccion.modalUnidades.classList.remove("mostrando-resultados");
-    });
+      interaccion.modalUnidades.classList.remove('mostrando-resultados')
+      const filtrosAplicados = document.querySelector('.filtros-aplicados')
+
+      filtrosAplicados.innerHTML = ''
+    })
   }
   //
   activarFila(e, interaccion) {
@@ -406,8 +495,8 @@ export default class Interaccion {
     //interaccion.modalApto.img_planta.innerHTML = `<img src="${obj.img_planta}" alt="Planta de unidad">`
     //interaccion.modalApto.img_planta.innerHTML = `<img src="https://proyectosappicua.com/maqueta/img/syrah-apto-1.jpg" alt="Planta de unidad">`;
     interaccion.modalApto.img_planta.innerHTML = `<img src="/static/plantas/planta_${obj.idTipoInmueble}.jpg" alt="Planta de unidad">`;
-    interaccion.modalApto.area_b.innerHTML = obj.areaBalcon
-    
+    interaccion.modalApto.area_b.innerHTML = obj.areaBalcon;
+
     //Agregar tour
     /*if (obj.tour_url) {
             btnTour.classList.add('visible')
@@ -437,7 +526,7 @@ export default class Interaccion {
     this.modalApto.apto_tit.innerHTML = "";
     this.modalApto.area_ac.innerHTML = "";
     this.modalApto.area_ap.innerHTML = "";
-    this.modalApto.area_b.innerHTML = ''
+    this.modalApto.area_b.innerHTML = "";
     this.modalApto.atributos.innerHTML = "";
     this.modalApto.img_planta.innerHTML = "";
     //this.modalApto.img_piso.innerHTML = ''
@@ -491,5 +580,68 @@ export default class Interaccion {
         document.querySelector(".hw-zonas").classList.remove("activo");
       },
     });
+  }
+  filtrarCercanias() {
+    const filtro = event.target.dataset.cercanias;
+    console.log(filtro);
+    const hotspotsCercanias = document.querySelectorAll(
+      ".hw-cercanias .hotspot"
+    );
+  }
+  crearFiltroTipos() {
+    const identificadorTipoInmueble = 'idTipoInmueble';
+    const valoresUnicos = new Set();
+    const infoInmuebles = [];
+
+    this.inventario.forEach(elemento => {
+      if (elemento[identificadorTipoInmueble]) {
+        valoresUnicos.add(elemento[identificadorTipoInmueble]);
+      }
+
+    });
+
+    const tiposInmueble = Array.from(valoresUnicos);
+    console.log(tiposInmueble);
+
+
+    tiposInmueble.forEach(valor => {
+      const objeto = this.inventario.find(elemento => elemento[identificadorTipoInmueble] === valor);
+      if (objeto) {
+        infoInmuebles.push(objeto)
+        // Agrega todas las propiedades que quieras guardar en el nuevo arreglo
+      }
+    });
+
+    //Crear botones por cada tipo de inmueble
+    console.log(infoInmuebles)
+
+    const contenedorFiltrosTipo = document.getElementById('contenedorFiltrosTipologias')
+
+    infoInmuebles.forEach(tipo => {
+      const div = document.createElement('div')
+      div.classList.add('tipo-inmueble')
+      div.innerHTML =
+        `
+      
+        <label>
+          <input type="checkbox" value="${tipo.idTipoInmueble}">
+          <div class="menu-item-info">
+            <div class="menu-item-col-img">
+              <img src="https://chromastudio.co/sole/sole_plantas/thumbs/${tipo.idTipoInmueble}.jpg" alt="Apto">
+            </div>
+            <div class="menu-item-col-txt">
+              <h2>${tipo.tipoInmueble}</h2>
+              <p class="menu-item-ac">A.C: <span>${tipo.areaConstruida}</span>m²</p>
+              <p class="menu-item-ap">A.P: <span>${tipo.areaPrivada}</span>m²</p>
+            </div>
+          </div>
+        </label>   
+      
+    `
+      contenedorFiltrosTipo.append(div)
+    })
+
+
+
   }
 }

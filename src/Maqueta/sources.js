@@ -93,7 +93,7 @@ export default [
   {
     name: "textura_nubes",
     type: "texture",
-    path: "texturas/contexto/nubes.png",
+    path: "texturas/contexto/nubes.webp",
   },
   {
     name: "textura_lago",
@@ -279,6 +279,16 @@ export default [
     name: "svg_vias",
     type: "svg",
     path: "mapa/vias.svg",
+  },
+  {
+    name: "svg_entrada",
+    type: "svg",
+    path: "mapa/entrada.svg",
+  },
+  {
+    name: "svg_salida",
+    type: "svg",
+    path: "mapa/salida.svg",
   },
   //Modelos proyecto
   /*{

@@ -17,7 +17,12 @@ export default class Cercanias {
     crearSelectores() {
         this.btnCercanias = document.getElementById('btnCercanias')
         this.modalCercanias = document.getElementById('modal-cercanias')
-        this.modalCercanias.querySelectorAll('input').forEach(input => input.checked = true)
+        this.modalCercanias.querySelectorAll('input').forEach(input => {
+            input.checked = true
+            if( input.dataset.cercanias === 'cerc-accesos') {
+                input.checked = false
+            }
+        })
         this.hwCercanias = document.querySelector('.hw-cercanias')
 
         this.btnCercanias.addEventListener('click', this.mostrarInfo)

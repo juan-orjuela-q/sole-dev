@@ -32,25 +32,28 @@ export default class Colores
             colorVecinos: '#c1c7cd',//c7cbd1
             colorEdificios: '#c1c7cd',//c7cbd1
             colorEdificiosLinea: '#ffffff',
-            colorVias: '#787f87',
+            colorVias: '#ffffff',//'#787f87',
             colorTransito: '#222431',
             colorAlerta: '#C1403A',
             colorArboles: '#afb992',
-            colorAndenes: '#c1b8ae',
+            colorAndenes: '#d3beab',//'#c1b8ae',
             colorCielo: '#FFFFFF',//fbfaea
-            colorBruma: '#f0e8cc',//ebeee2
-            colorTerreno: '#99ac8b',
+            colorBruma: '#e5cfbd',//ebeee2
+            colorTerreno: '#a3a98e',//'#99ac8b',
             colorNubes: '#dbdbdb',
             //Colores version alterna
             colorBarandas: '#ffffff',
             colorBbq: '#84889f',
-            colorCarros: '#c4c4c4',
+            colorCarros: '#85868e',
             colorComunal: '#ffffff',//#f3f1e8
             colorJuegos: '#84889f',
             colorLuminarias: '#222431',
             colorTorres: '#ffffff',//#f3f1e8
             colorTorresLineas: '#ffffff',
-            colorUrbano: '#ffffff'
+            colorUrbano: '#ffffff',
+            //
+            colorEntrada: '#a8c559',
+            colorSalida: '#59c5aa',
         }
     }
 }

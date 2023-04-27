@@ -27,9 +27,10 @@ export default class Modelo {
             child.material = this.material
             //child.castShadow = true
             //child.receiveShadow = true
-            //if (child instanceof THREE.Mesh) {
-            //    child.castShadow = true
-            //}
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true
+                child.receiveShadow = true
+            }
             if(this.env) {
                 child.userData.env = true
             } else {
