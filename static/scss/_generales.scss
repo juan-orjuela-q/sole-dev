@@ -409,8 +409,29 @@ img {
       display: none;
     }
 
-    .label:hover+.texto {
+    .label:hover+.texto,
+    .label.hover+.texto {
       display: initial;
+    }
+  }
+}
+#listado-zonas {
+  list-style-type: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  li {
+    margin-bottom: 1rem;
+    padding: 0 4px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    color: var(--color1);
+    border-radius: 2px;
+    &:hover {
+      
+      background-color: var(--color2);
     }
   }
 }

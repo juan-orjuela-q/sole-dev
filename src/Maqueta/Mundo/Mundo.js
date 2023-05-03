@@ -511,6 +511,7 @@ export default class Mundo {
       false,
       {x: 0, y: 0, z: 5}
     );
+    
     this.carros_arriba = new Modelo(
       this.recursos.items.modelo_carros_arriba,
       this.materiales.materialesContexto.carros,

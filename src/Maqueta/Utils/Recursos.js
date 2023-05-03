@@ -48,6 +48,16 @@ export default class Recursos extends EventEmitter
                     }
                 )
             }
+            else if(source.type === 'dracoModel')
+            {
+                this.loaders.dracoLoader.load(
+                    source.path,
+                    (file) =>
+                    {
+                        this.sourceLoaded(source, file)
+                    }
+                )
+            }
             else if(source.type === 'texture')
             {
                 this.loaders.textureLoader.load(

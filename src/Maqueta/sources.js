@@ -43,6 +43,7 @@ export default [
     type: "texture",
     path: "texturas/proyecto/carros_abajo.webp",
   },
+  
   {
     name: "textura_carros_arriba",
     type: "texture",
@@ -315,6 +316,11 @@ export default [
     name: "modelo_carros_abajo",
     type: "gltfModel",
     path: "modelos/proyecto/carros_abajo.glb",
+  },
+  {
+    name: "modelo_carros_abajo",
+    type: "gltfModel",
+    path: "modelos/proyecto/carros_abajo3test.glb",
   },
   {
     name: "modelo_carros_arriba",

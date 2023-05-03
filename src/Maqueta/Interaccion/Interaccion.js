@@ -76,28 +76,65 @@ export default class Interaccion {
       .addEventListener("click", (event) => {
         event.preventDefault();
         this.modalHotspot.classList.remove("activo");
-
-        /*const controles = this.camara.controles
-            gsap.to(controles.target, {
-                duration: 1,
-                x: 0,
-                y: 0.75,
-                z: 0,
-                onUpdate: function () {
-                    controls.update();
-                },
-                onComplete: function () {
-                    controls.enabled = true;
-                    //Mostrar popup
-                }
-            });
-            controls.minDistance = 4
-            limpiarModalHot()*/
       });
-    /*function limpiarModalHot() {
-            hotImg.innerHTML = ''
-            hotLabel.innerHTML = ''
-        }*/
+    //Zonas   
+    this.infoZonas = [
+      {
+        name: 'Terraza BBQ',
+        label: 'Terraza BBQ',
+        imagen: 'terraza.webp',
+        posicion: { x: -1.4502037862017385, y: 1.9118353233908731, z: -1.0338747289798966 }
+      },
+      {
+        name: 'Social Kitchen',
+        label: 'Social Kitchen',
+        imagen: 'salon-juegos.webp',
+        posicion: { x: -1.1614740568430348, y: 1.2841251371279006, z: -0.42700813785780634 }
+      },
+      {
+        name: 'Lobby',
+        label: 'Lobby',
+        imagen: 'gimnasio.webp',
+        posicion: { x: -1.1614740568430348, y: 1.2841251371279006, z: -0.42700813785780634 }
+      },
+      {
+        name: 'Salón de juegos',
+        label: 'Salón de juegos',
+        imagen: 'salon-yoga.webp',
+        posicion: { x: -0.4133219906334349, y: 1.5237152193808712, z: -4.21253733107561 }
+      },
+      {
+        name: 'Salón social',
+        label: 'Salón social',
+        imagen: 'lobby-horizontal.webp',
+        posicion: { x: -0.4133219906334349, y: 1.5237152193808712, z: -4.21253733107561 }
+      },
+      {
+        name: 'Piscina',
+        label: 'Piscina',
+        imagen: 'coworking.webp',
+        posicion: { x: -1.1614740568430348, y: 1.2841251371279006, z: -0.42700813785780634 }
+      }      
+    ]
+    this.listadoZonas = document.getElementById('listado-zonas')
+    this.infoZonas.forEach(itemZona => {
+      const li = document.createElement('li')
+      li.dataset.name = itemZona.name
+      li.innerHTML = itemZona.label
+      this.listadoZonas.append(li)
+
+      li.addEventListener('click', () => {
+      document.querySelector(`.hw-zonas .hotspot[data-texto="${li.dataset.name}"]`).click()
+      })
+      li.addEventListener('mouseover', () => {
+        document.querySelector(`.hw-zonas .hotspot[data-texto="${li.dataset.name}"] .label`).classList.add('hover')
+      })
+      li.addEventListener('mouseleave', () => {
+        document.querySelector(`.hw-zonas .hotspot[data-texto="${li.dataset.name}"] .label`).classList.remove('hover')
+      })
+
+    })
+
     //Tooltip y modal aptos
     this.tooltipApto = document.getElementById("tooltip-apto");
     this.tool_torre = this.tooltipApto.querySelector(".torre span");
@@ -253,11 +290,11 @@ export default class Interaccion {
       crearMarca('Nombre', interaccion.campo_apto_tit.value)
     }
 
-    if(tiposSeleccionados.length > 0) {
+    if (tiposSeleccionados.length > 0) {
       tiposSeleccionados.forEach(tipo => {
         crearMarca('Tipo', document.querySelector(`#contenedorFiltrosTipologias input[value="${tipo}"] + div h2`).innerText)
       })
-        
+
     }
 
     /*if(interaccion.campo_vista.value) {
