@@ -2,27 +2,49 @@
 import * as THREE from 'three'
 //Proyecto
 import Maqueta from "./Maqueta"
+import {obtenerUnidadesPorProyecto, obtenerProyectoPorMegaproyecto} from './ConsultarERP'
 
 export default class Inventario {
     constructor() {
         this.maqueta = new Maqueta()
         this.escena = this.maqueta.escena
         this.recursos = this.maqueta.recursos
-        
+
         this.mascarasProyecto = this.maqueta.mundo.mascarasProyecto
         //this.btnFiltrar = document.getElementById('filtrar')
-        
-        
+
+
         //this.tablaResultados = document.querySelector('#resultados tbody')
         //this.formatoNumero = Intl.NumberFormat('de-DE')
 
+        // this.recursos.on('cargado', () => {
+        //     this.inventario = this.recursos.items.inventario
+        //     //this.cargarMascarasTest()
+        //     this.cargarMascaras()
+        // })
         this.recursos.on('cargado', () => {
-            this.inventario = this.recursos.items.inventario
-            this.cargarMascaras()
-            //this.cargarMascaras()
+                        
+            async function consumo(interaccion) {
+                const idProyecto = 512;
+                const unidades = await obtenerUnidadesPorProyecto(idProyecto);
+                //console.log('unidades:', unidades);
+                if(unidades) {
+                    interaccion.crearInventario(unidades)
+                    interaccion.cargarMascarasTest()
+                } else {
+                    console.log('Me estoy enloqueciendo')
+                }
+                
+                
+            }
+            consumo(this);
         })
     }
-    cargarMascarasTest(){
+    crearInventario(data) {
+        this.inventario = data
+        console.log('Mi inventario: ', this.inventario)
+     }
+    cargarMascarasTest() {
         for (const mascara of this.recursos.items.mascarasInventario.scene.children) {
             const name = mascara.name
             //torre_1_904_tipo_4
@@ -30,29 +52,19 @@ export default class Inventario {
         }
     }
 
-//COGNIS
+    //COGNIS
     cargarMascaras() {
 
         for (const mascara of this.recursos.items.mascarasInventario.scene.children) {
-            
-            //Ejemplo usual: "torre1_apto102_tipo1_cam1"
-            const name = mascara.name,
-                id = name.substring(0, name.match("_tipo").index),
-                torre = name.substring(name.match("torre").index + 5, name.match("_apto").index),
-                num = name.substring(name.match("apto").index + 3, name.match("_tipo").index)
 
-
-
-
-
-            //Ejemplo Colpatria: torre1_APT-0426_cam1
-            //Colpatria el.nombre: "APT-0426"
+            //Ejemplo nombre de máscara: TORRE1-APT-0705-TIPO3
+            //Ejemplo inventario ITEM.nombre: "APT-0705"
             //Colpatria
-            // const name = mascara.name,
-            //     id = name.substring(7, name.match("_cam").index),
-            //     torre = name.substring(name.match("torre").index + 5, name.match("_APT").index),
-            //     num = name.substring(name.match("APT").index + 3, name.match("_cam").index)
-            //cam = name.substring(name.match("cam").index + 3, name.length)
+            const name = mascara.name,
+                id = name.substring(7, name.match("-TIPO").index),
+                torre = name.substring(name.match("TORRE").index + 5, name.match("-APT").index),
+                num = name.substring(name.match("APT").index + 4, name.match("-TIPO").index),
+                cam = num.charAt(num.length - 1);
 
             //Agregar atributos
             mascara.userData.id = id
@@ -60,8 +72,10 @@ export default class Inventario {
             mascara.userData.numero = num
             mascara.userData.activo = false
             //mascara.userData.tipo = tipo
-            //mascara.userData.camara = cam
+            mascara.userData.camara = cam
             mascara.visible = false
+
+            console.log(mascara.userData)
 
             //Definir material
             mascara.material = this.maqueta.materiales.materialesProyecto.mascaras
@@ -78,11 +92,11 @@ export default class Inventario {
         this.mascarasProyecto.add(this.recursos.items.mascarasInventario.scene)
         //this.btnFiltrar.addEventListener('click', ()=> {this.consultar(event, this.inventario)}, false)
     }
-   //COGNIS ignorar por ahora
+    //COGNIS ignorar por ahora
     consultar(e, inventario) {
         e.preventDefault()
         e.stopPropagation()
-        
+
         //Consultar json
         for (const unidad of inventario) {
             //Prender los aptos del JSON

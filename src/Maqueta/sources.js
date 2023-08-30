@@ -416,7 +416,7 @@ export default [
   {
     name: "mascarasInventario",
     type: "gltfModel",
-    path: "inventario/mascarasInventario.glb",
+    path: "inventario/mascarasInventarioNuevo.glb",
   },
   {
     name: "inventario",

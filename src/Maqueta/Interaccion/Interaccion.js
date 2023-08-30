@@ -361,7 +361,7 @@ export default class Interaccion {
     interaccion.tablaResultados.innerHTML = ''
     //Consultar json
     for (let i = 0; i < inventarioFiltrado.length; i++) {
-      const infoID = inventarioFiltrado[i].id
+      const infoID = inventarioFiltrado[i].nombre
 
       //Prender los aptos del JSON
       interaccion.maqueta.mundo.mascarasProyecto.traverse(child => {
