@@ -25,7 +25,7 @@ export default class Inventario {
     this.recursos.on("cargado", () => {
       if (this.modoLocal) {
         this.inventario = this.recursos.items.inventario_local;
-        this.cargarMascaras();
+        //this.cargarMascaras();
       } else {
         this.cargarInventarioRemoto();
       }

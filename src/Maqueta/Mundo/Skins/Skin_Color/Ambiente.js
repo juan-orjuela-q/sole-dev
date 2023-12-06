@@ -39,9 +39,9 @@ export default class Ambiente {
     
         let phi = THREE.MathUtils.degToRad(15);//65
         let theta = THREE.MathUtils.degToRad(60 + 180);  
-        console.log(this.sun)
+        //console.log(this.sun)
         this.sun.setFromSphericalCoords(1, phi, theta);
-        console.log(this.sun)
+        //console.log(this.sun)
         //this.sun.set(-0,1,1)
         
         

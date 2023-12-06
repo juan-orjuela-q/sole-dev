@@ -17,6 +17,7 @@ export default class Interaccion {
     } else {
       console.log("No se está usando el inventario local en Interaccion.js");
     }
+    this.abrirInventario = false;
 
     //Elementos
     this.menuFlotante = document.getElementById("menuflotante");
@@ -359,6 +360,14 @@ export default class Interaccion {
     this.btnFiltrar.addEventListener(
       "click",
       () => {
+        //Cargar mascaras 1era vez
+        
+        if(!this.abrirInventario) {
+          this.maqueta.inventario.cargarMascaras();
+          this.abrirInventario = true;
+        } else {
+          console.log('Ya se habían cargado las máscaras');
+        }
         this.filtrar(this);
       },
       false
@@ -380,7 +389,7 @@ export default class Interaccion {
       false
     );
     //Ver ejemplo de inventario
-    console.log("Ejemplo inventario: ", this.inventario[0]);
+    //console.log("Ejemplo inventario: ", this.inventario[0]);
 
     this.crearFiltroTipos();
     //Cerrar busqueda
@@ -498,7 +507,7 @@ export default class Interaccion {
 
     const filteredData = [];
 
-    console.log(interaccion.inventario);
+    //console.log(interaccion.inventario);
     for (let obj of interaccion.inventario) {
       let matches = true;
       // Compara cada atributo del objeto con el valor del filtro correspondiente
@@ -541,7 +550,7 @@ export default class Interaccion {
 
     document.querySelector(".filtros-aplicados").innerHTML = "";
     const inventarioFiltrado = interaccion.filtrarInventario(interaccion);
-    console.log(inventarioFiltrado);
+    //console.log('Resultados del filtro: ', inventarioFiltrado);
 
     interaccion.quitarAislamiento();
     //Limpiar máscaras
@@ -1052,7 +1061,7 @@ export default class Interaccion {
     });
 
     const tiposInmueble = Array.from(valoresUnicos);
-    console.log(tiposInmueble);
+    //console.log(tiposInmueble);
 
     tiposInmueble.forEach((valor) => {
       const objeto = this.inventario.find(
@@ -1065,7 +1074,7 @@ export default class Interaccion {
     });
 
     //Crear botones por cada tipo de inmueble
-    console.log(infoInmuebles);
+    //console.log(infoInmuebles);
 
     const contenedorFiltrosTipo = document.getElementById(
       "contenedorFiltrosTipologias"
