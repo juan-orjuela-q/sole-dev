@@ -120,6 +120,16 @@ export default class Materiales {
       transparent: true,
       opacity: 0.5,
     });
+    this.materialesProyecto.mascarasVendido = new THREE.MeshBasicMaterial({
+      color: this.colores.mascaras.mascara3,
+      transparent: true,
+      opacity: .5
+    });
+    this.materialesProyecto.mascarasOpcionado = new THREE.MeshBasicMaterial({
+      color: this.colores.mascaras.mascaraOpcionado,
+      transparent: true,
+      opacity: .5
+    });
     this.materialesProyecto.mascaraHover = new THREE.MeshBasicMaterial({
       color: this.colores.mascaras.mascaraHover,
       transparent: true,
@@ -374,5 +384,12 @@ export default class Materiales {
       //roughness: 0.8
       
     });
+    //Mascaras Zonas
+    this.materialesProyecto.mascarasZonas = new THREE.MeshBasicMaterial({
+      color: this.colores.mascaras.mascara3,
+      transparent: true,
+      opacity: .5,
+      side: THREE.DoubleSide
+    })
   }
 }

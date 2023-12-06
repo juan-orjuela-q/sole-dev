@@ -26,17 +26,19 @@ export default class Cercanias {
         this.hwCercanias = document.querySelector('.hw-cercanias')
 
         this.btnCercanias.addEventListener('click', this.mostrarInfo)
+        this.modalCercanias.querySelector('.btnCerrar-modal').addEventListener('click', this.ocultarInfo)
     }
     mostrarCercanias() {
 
     }
 
     mostrarInfo = () => {
+        this.maqueta.mostrarCercanias = true
         this.hwCercanias.classList.add('activo')
         const controles = this.controles
         controles.enabled = false
         gsap.to(this.camara.position, {
-            duration: 1,
+            duration: 2.5,
             x: -8.5,
             y: 4.01,
             z: 4.2,
@@ -47,5 +49,16 @@ export default class Cercanias {
                 controles.enabled = true
             }
         })
+    }
+    ocultarInfo = () => {
+        this.hwCercanias.classList.remove('activo')
+        this.hwVias.classList.remove('activo')
+        this.maqueta.mundo.vias.modelo.visible = false
+        this.inputsCercanias.forEach(input => { input.checked = false })
+        this.hwCercanias.querySelectorAll('.hotspot').forEach(hotspot => { hotspot.classList.add('oculto') })
+        this.hwVias.querySelectorAll('.hotspot').forEach(hotspot => { hotspot.classList.add('oculto') }) 
+        
+        this.maqueta.mostrarCercanias = false
+        
     }
 }

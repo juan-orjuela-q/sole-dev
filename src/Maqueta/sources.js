@@ -26,12 +26,12 @@ export default [
   {
     name: "textura_barandas",
     type: "texture",
-    path: "texturas/proyecto/barandas.webp",
+    path: "texturas/proyecto/barandas_new3.webp",
   },
   {
     name: "textura_barandas_alpha",
     type: "texture",
-    path: "texturas/proyecto/barandas_alpha.webp",
+    path: "texturas/proyecto/barandas_alpha_old.webp",
   },
   {
     name: "textura_bbq",
@@ -305,7 +305,7 @@ export default [
   {
     name: "modelo_barandas",
     type: "gltfModel",
-    path: "modelos/proyecto/barandas.glb",
+    path: "modelos/proyecto/barandas_old.glb",
   },
   {
     name: "modelo_bbq",
@@ -419,8 +419,19 @@ export default [
     path: "inventario/mascarasInventarioNuevo.glb",
   },
   {
-    name: "inventario",
+    name: "inventario_test",
     type: "json",
-    path: "inventario/inventario.json",
+    path: "inventario/inventario_local.json",
+  },
+  {
+    name: "inventario_local",
+    type: "json",
+    path: "inventario/inventario_local.json",
+  },
+  //Mascaras zonas comunes
+  {
+    name: "mascarasZonas",
+    type: "gltfModel",
+    path: "modelos/proyecto/mascaras_zonas_comunes.glb",
   },
 ];

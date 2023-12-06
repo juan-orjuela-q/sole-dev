@@ -48,11 +48,17 @@ export default class Maqueta {
         this.mundo = new Mundo()
         this.materiales = new Materiales()
         this.raycaster = new Raycaster()
-        this.hotspots = new Hotspots().hotspots
+        //this.hotspots = new Hotspots().hotspots
+        this.hotspotsCercanias = new Hotspots().cercanias
+        this.hotspotsZonas = new Hotspots().zonas
+        this.mostrarCercanias = false
+        this.mostrarZonas = false
         this.frustum = new THREE.Frustum()
         this.inventario = new Inventario()
         this.raycasterAptos = new Raycaster()
         this.raycasterAptos.layers.set(1)
+        this.raycasterZonas = new Raycaster()
+        this.raycasterZonas.layers.set(2)
         this.mouse = new THREE.Vector2()
         this.interseccionActual = null
         this.brujula_dir = new THREE.Vector3()
@@ -93,6 +99,11 @@ export default class Maqueta {
                     this.interaccion.quitarAislamiento(false)
                     
                     this.interaccion.aislarApto(aptoActivo.userData.id)
+                }
+                //Zonas
+                if (this.interseccionActualZonas) {
+                    const zonaActiva = this.interseccionActualZonas.object.name
+                    this.interaccion.mostrarZona(zonaActiva)                    
                 }
             })
             //
@@ -142,25 +153,31 @@ export default class Maqueta {
     actualizar() {
         this.camara.actualizar()
         this.renderer.actualizar()
-        this.posicionarHotspots()
         this.interactuarMascaras()
         this.moverBrujula()
-        //this.mundo.rotarNubes()
+        //
+        if (this.mostrarCercanias) {
+            this.posicionarHotspots(this.hotspotsCercanias)
+        }
+        if (this.mostrarZonas) {
+            //this.posicionarHotspots(this.hotspotsZonas)
+            this.interactuarZonas()
+        } 
     }
     actualizarStats() {
         this.stats.update()
     }
 
-    posicionarHotspots() {
+    posicionarHotspots(hotspots) {
         //Evitar problema con hostspots fuera de cámara
         this.frustum.setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(this.camara.instancia.projectionMatrix, this.camara.instancia.matrixWorldInverse))
         //Controlar hotspots
-        for (const hotspot of this.hotspots) {
+        for (const hotspot of hotspots) {
             const screenPosition = hotspot.position.clone()
             screenPosition.project(this.camara.instancia)
 
             this.raycaster.setFromCamera(screenPosition, this.camara.instancia)
-            const intersects = this.raycaster.intersectObjects(this.mundo.grupoProyecto.children, true)
+            const intersects = this.raycaster.intersectObjects(this.mundo.grupoProyectoRay.children, true)
             if (intersects.length === 0) {
                 if (this.frustum.containsPoint(hotspot.position)) {
                     hotspot.element.classList.add('visible')
@@ -196,7 +213,17 @@ export default class Maqueta {
                     for (const objeto of objetosEvaluar) {
                         for (const hijo of objeto.children) {
                             if (hijo.userData.activo === false) {
-                                hijo.material = this.materiales.materialesProyecto.mascaras
+                                //hijo.material = this.materiales.materialesProyecto.mascaras
+                                  if (hijo.userData.disponibilidad === 'VENDIDO') {
+                                      hijo.material = this.materiales.materialesProyecto.mascarasVendido
+                                  } else if (hijo.userData.disponibilidad === 'OPCIONADO') {
+                                      hijo.material = this.materiales.materialesProyecto.mascarasOpcionado
+                                  } else if (hijo.userData.disponibilidad === 'BLOQUEADA PARA LA VENTA') {
+                                      hijo.material = this.materiales.materialesProyecto.mascaras
+                                  } else {
+                                      hijo.material = this.materiales.materialesProyecto.mascaras
+                                  }
+
                             }
                         }
                     }
@@ -209,12 +236,53 @@ export default class Maqueta {
                     for (const objeto of objetosEvaluar) {
                         for (const hijo of objeto.children) {
                             if (hijo.userData.activo === false) {
-                                hijo.material = this.materiales.materialesProyecto.mascaras
+                                //hijo.material = this.materiales.materialesProyecto.mascaras
+                                if (hijo.userData.disponibilidad === 'VENDIDO') {
+                                    hijo.material = this.materiales.materialesProyecto.mascarasVendido
+                                } else if (hijo.userData.disponibilidad === 'OPCIONADO') {
+                                    hijo.material = this.materiales.materialesProyecto.mascarasOpcionado
+                                } else if (hijo.userData.disponibilidad === 'BLOQUEADA PARA LA VENTA') {
+                                    hijo.material = this.materiales.materialesProyecto.mascaras
+                                } else {
+                                    hijo.material = this.materiales.materialesProyecto.mascaras
+                                }
                             }
                         }
                     }
                 }
                 this.interseccionActual = null
+            }
+        }
+    }
+    interactuarZonas() {
+        if (this.mundo.mascarasZonas.children.length > 0) {
+            this.raycasterZonas.setFromCamera(this.mouse, this.camara.instancia)
+            const objetosEvaluar = this.mundo.mascarasZonas.children[0].children,
+                intersecciones = this.raycasterZonas.intersectObjects(objetosEvaluar, true)
+            if (intersecciones.length) {
+                this.interseccionActualZonas = intersecciones[0]
+                if (this.interseccionActualZonas.object.type === 'Mesh') {
+                    
+                    for (const objeto of objetosEvaluar) {
+                        if(!objeto.userData.activo) {
+                            objeto.material = this.materiales.materialesProyecto.mascarasZonas    
+                        }
+                                       
+                    }
+                    if(!this.interseccionActualZonas.object.activo) {
+                        this.interseccionActualZonas.object.material = this.materiales.materialesProyecto.mascaraHover  
+                    }
+                    
+                }
+            } else {
+                if (this.interseccionActualZonas) {
+                    for (const objeto of objetosEvaluar) {
+                        if(!objeto.userData.activo) {
+                            objeto.material = this.materiales.materialesProyecto.mascarasZonas
+                        }                        
+                    }
+                }
+                this.interseccionActualZonas = null
             }
         }
     }

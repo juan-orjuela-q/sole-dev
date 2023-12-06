@@ -94,11 +94,11 @@ async function obtenerProyectoPorMegaproyecto(idMegaProyecto) {
 }
 
 /*async function consumo() {
-    const idProyecto = 512;
+    const idProyecto = 595;  
     const unidades = await obtenerUnidadesPorProyecto(idProyecto);
-    console.log('unidades:', unidades);
+    console.log('unidades 1:', unidades);
 
-    const idMegaProyecto = 340;
+    const idMegaProyecto = 430; //430 Sole
     const proyectos = await obtenerProyectoPorMegaproyecto(idMegaProyecto);
     console.log('Proyectos:', proyectos);
 }

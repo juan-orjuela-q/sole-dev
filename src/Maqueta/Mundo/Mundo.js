@@ -41,9 +41,11 @@ export default class Mundo {
     this.grupoArbolesParticulas = new THREE.Group();
     this.grupoPersonas = new THREE.Group();
     this.grupoProyecto = new THREE.Group();
+    this.grupoProyectoRay = new THREE.Group();
+    this.mascarasZonas = new THREE.Group();
     this.mascarasProyecto = new THREE.Group();
 
-    this.crearHelper();
+    
 
     // Esperar que cargue Recursos
     this.recursos.on("cargado", () => {
@@ -58,6 +60,7 @@ export default class Mundo {
       this.crearArbustos();
       this.crearArboles();
       this.crearArbolesRelleno();
+      this.crearZonas();
       this.crearMascaras();
       this.crearNubes();
       this.crearDebug();
@@ -77,7 +80,7 @@ export default class Mundo {
       new THREE.SphereGeometry(0.05, 16, 16),
       new THREE.MeshStandardMaterial({ color: this.colores.paleta.color3 })
     );
-    //this.escena.add(this.bolaHelper)
+    this.escena.add(this.bolaHelper)
   }
   crearTerreno() {
     //Piso
@@ -466,29 +469,25 @@ export default class Mundo {
     this.torre_baja = new Modelo(
       this.recursos.items.modelo_torre_baja,
       this.materiales.materialesProyecto.torre_baja,
-      this.grupoProyecto,
+      this.grupoProyectoRay,
       false
     );
     this.torre_sole_1 = new Modelo(
       this.recursos.items.modelo_torre_sole_1,
       this.materiales.materialesProyecto.torre_sole_1,
-      this.grupoProyecto,
+      this.grupoProyectoRay,
       false
     );
     this.torre_sole_2 = new Modelo(
       this.recursos.items.modelo_torre_sole_2,
       this.materiales.materialesProyecto.torre_sole_2,
-      this.grupoProyecto,
+      this.grupoProyectoRay,
       false
     );
 
     //this.arboles = new Modelo(this.recursos.items.modelo_arboles, this.materiales.materialesProyecto.arboles, this.grupoProyecto)
     //this.arbustos = new Modelo(this.recursos.items.modelo_arbustos, this.materiales.materialesProyecto.arbustos, this.grupoProyecto)
-    /*this.barandas = new Modelo(
-      this.recursos.items.modelo_barandas,
-      this.materiales.materialesProyecto.barandas,
-      this.grupoProyecto
-    );
+    /*
     
     
     
@@ -498,6 +497,12 @@ export default class Mundo {
       this.materiales.materialesProyecto.juegos,
       this.grupoProyecto
     );*/
+    this.barandas = new Modelo(
+      this.recursos.items.modelo_barandas,
+      this.materiales.materialesProyecto.barandas,
+      this.grupoProyecto,
+      false
+    );
     this.bbq = new Modelo(
       this.recursos.items.modelo_bbq,
       this.materiales.materialesProyecto.bbq,
@@ -520,7 +525,7 @@ export default class Mundo {
     this.comunal = new Modelo(
       this.recursos.items.modelo_comunal,
       this.materiales.materialesProyecto.comunal,
-      this.grupoProyecto,
+      this.grupoProyectoRay,
       false
     );
     this.juegos_2 = new Modelo(
@@ -634,7 +639,37 @@ export default class Mundo {
         .step(0.01)
         .name("Luminarias rot y");
     }
+    this.grupoProyecto.add(this.grupoProyectoRay);
     this.escena.add(this.grupoProyecto);
+  }
+  crearZonas() {
+
+    this.recursos.items.mascarasZonas.scene.traverse((child) => {
+
+      if (child.type === 'Mesh') {
+        child.material = this.materiales.materialesProyecto.mascarasZonas
+        child.visible = false
+        child.userData.activo = false
+        //console.log(child)
+      }
+
+    });
+
+    this.mascarasZonas.add(this.recursos.items.mascarasZonas.scene)
+
+    //escalar
+    this.mascarasZonas.scale.set(
+      this.escalaProyecto.x,
+      this.escalaProyecto.y,
+      this.escalaProyecto.z
+    );
+    this.mascarasZonas.position.set(
+      this.posicionProyecto.x,
+      this.posicionProyecto.y,
+      this.posicionProyecto.z
+    );
+
+    this.escena.add(this.mascarasZonas);
   }
   crearMascaras() {
     this.mascarasProyecto.scale.set(
@@ -686,6 +721,7 @@ export default class Mundo {
 
   crearDebug() {
     if (this.debug.active) {
+      this.crearHelper();
       //Helper
       this.debugProyecto
         .add(this.bolaHelper.position, "x")

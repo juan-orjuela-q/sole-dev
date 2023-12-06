@@ -393,13 +393,25 @@ body {
 //Modal aptos
 #modal-aptos {
   background: var(--gris);
-  color: var(--grisOscuro);
+  color: var(--color2);
+  .modal-contenedor {
+    padding: 0;
+  }
   .col-planos {
     background: var(--blanco);
+    padding: 90px;
+    flex-grow: 2;
+    background: var(--color2);
+    max-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .col-info {
     position: relative;
     padding: 60px;
+    background-color: var(--color1);
     &:before {
       content: "";
       position: absolute;
@@ -408,6 +420,7 @@ body {
       top: 0;
       left: 0;
       opacity: 0.3;
+      
       background-image: url(/static/img/fondo-sole-flores.png);
       background-size: contain;
       background-repeat: no-repeat;
@@ -425,10 +438,6 @@ body {
 
     .cont-areas {
       margin-bottom: 2rem;
-    }
-
-    .col-planos {
-      padding: 90px;
     }
   }
 }
@@ -489,4 +498,21 @@ body {
   .btn-ir {
     background: var(--color1);
   }
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 90px 120px 15px 100px;
+  background: rgb(0,0,0);
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6951155462184874) 100%);
+  pointer-events: none;
+  .disclaimer {
+    font-size: 10px;
+    color: white;
+    max-width: calc(100% );
+  }
+}
+[data-name="SALON_COMUNAL"] {
+  display: none !important
 }

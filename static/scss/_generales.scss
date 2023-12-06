@@ -948,11 +948,13 @@ img {
   display: none;
   opacity: 0;
   transition: opacity 0.5s ease;
-  pointer-events: all;
+  pointer-events: none;
 
   &.activo {
     display: flex;
     opacity: 1;
+    pointer-events: all;
+
   }
 
   &:after {
@@ -1001,13 +1003,17 @@ img {
 
   .btn-cerrar {
     position: absolute;
-    top: -5px;
+    top: -28px;
     right: 0;
     width: 20px;
     height: 20px;
+    border-radius: 0;
+    background: var(--color3);
 
     svg {
       max-width: 100%;
+      top: -6px;
+      position: relative;
     }
   }
 }

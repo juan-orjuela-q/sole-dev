@@ -15,14 +15,15 @@ export default class Colores
             directional: '#FFFFFF'
         },
         this.mascaras = {
-            mascara1: '#222431',
+            mascara1: '#50e650',
             mascara2: '#F9E2D0',
             mascara3: '#C1403A',
             mascara4: '#458376',
             mascara5: '#313c90',
             mascaraHover: '#ffffff',
             mascaraClick: '#ffffff',
-            mascaraLinea: this.paleta.color1
+            mascaraLinea: this.paleta.color1,
+            mascaraOpcionado: '#FDE74C'
         }
         this.coloresMundo = {
             blanco: '#FFFFFF',
