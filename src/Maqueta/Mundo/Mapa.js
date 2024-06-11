@@ -45,7 +45,6 @@ export default class Mapa {
                         this.grupo.add(mesh, lines)
                     } else {
                         //const mesh = new THREE.Mesh(meshGeometry, this.material)
-                        
                         this.grupo.add(mesh)
                     }
                 }
